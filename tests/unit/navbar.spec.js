@@ -15,9 +15,9 @@ localVue.use(VueRouter)
 const store = new Vuex.Store(myStore)
 const router = new VueRouter(myRoutes)
 
-describe('Navbar.vue', () => {
-  it('muestra menu de login si no hay usuario', () => {
-    store.dispatch('updateUser', undefined)
+describe('Navbar usuario test', () => {
+  it('Usuario no registrado, buscando Login', () => {
+    store.dispatch('Actualizando usuario', undefined);
     const wrapper = shallowMount(Navbar, {
       propsData: {
         title: "Mi Tienda"
@@ -26,10 +26,11 @@ describe('Navbar.vue', () => {
       store,
       router,
     })
-    expect(wrapper.text()).toContain('Login')
+    expect(wrapper.text()).toContain('Login');
   }),
-  it('muestra menu de usuario si está logueado', () => {
-    store.dispatch('updateUser', { email: 'user1@mystore.com' })
+
+  it('Usuario registrado, buscando Usuario y Login', () => {
+    store.dispatch('Actualizando usuario email', { email: 'user1@mystore.com', password: 'password' });
     const wrapper = shallowMount(Navbar, {
       propsData: {
         title: "Mi Tienda"
@@ -37,8 +38,8 @@ describe('Navbar.vue', () => {
       localVue,
       store,
       router,
-    })
-    expect(wrapper.text()).toContain('Usuario')
-    expect(wrapper.text()).toContain('Login')
-  })
+    });
+    expect(wrapper.text()).toContain('Usuario');
+    expect(wrapper.text()).not.toContain('Login');
+  });
 })
